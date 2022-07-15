@@ -15,13 +15,21 @@ public class JpaMain {
 //        Jpa1_GetStart jpa1 = new Jpa1_GetStart(emf);
 //        jpa1.basicCRUD();
 
+        Jpa2_PersistenceContext jpa2 = new Jpa2_PersistenceContext(emf);
         /**
          * 영속성 관리 - 내부 동작 방식
          */
-        Jpa2_PersistenceContext jpa2 = new Jpa2_PersistenceContext(emf);
-        jpa2.persistenceExample();
+//        jpa2.persistenceExample();
 
+        /**
+         * 쓰기 지연
+         */
+//        jpa2.writeBehind();
 
+        /**
+         * dirty checking
+         */
+        jpa2.dirtyChecking();
 
     }
 
