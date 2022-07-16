@@ -3,6 +3,8 @@ package hellojpa;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class Jpa2_PersistenceContext {
 
@@ -48,7 +50,6 @@ public class Jpa2_PersistenceContext {
             em.close();
         }
 
-        emf.close();
     }
 
     public void writeBehind() {
@@ -75,7 +76,6 @@ public class Jpa2_PersistenceContext {
             em.close();
         }
 
-        emf.close();
     }
 
     public void dirtyChecking() {
@@ -99,8 +99,74 @@ public class Jpa2_PersistenceContext {
         } finally {
             em.close();
         }
+    }
 
-        emf.close();
+    public void flush() {
+        /**
+         * 수정된 엔티티 쓰기 지연 SQL(영속성 컨텍스트의 변경내용)들을 DB와 동기화
+         * 플러시가 발생하는 경우
+         * 1. em.flush();
+         * 2. tx.commit;
+         * 3. em.createQuery() - JPQL은 무조건 SQL로 번역되어 DB에 쿼리를 날리게 되는데 flush가 되지 않는다면 동일 트랜잭션내 쓰기 지연 SQL 저장소에 담긴 데이터를 확인 불가능 하기 때문
+         * Flush가 수행되어도 1차 캐시가 날아가지는 않는다. 쓰기 지연과 변경 감지로 쓰기 지연 SQL 저장소에 담겨있던 쿼리를 DB로 날림
+         */
+        EntityManager em = emf.createEntityManager();
+
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        try {
+            Member member = new Member(200L, "member200");
+            em.persist(member);
+
+//            em.flush();
+            TypedQuery<Member> query = em.createQuery("select m from Member m", Member.class);
+            List<Member> members = query.getResultList();
+
+            System.out.println("members : " + members);
+
+            members.forEach(m -> System.out.println(m.getName()));
+
+            System.out.println("=================");
+
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        } finally {
+            em.close();
+        }
+
+    }
+
+    public void detached() {
+        /**
+         *
+         */
+        EntityManager em = emf.createEntityManager();
+
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        try {
+            //영속
+            Member member = em.find(Member.class, 150L);
+            member.setName("AAAA");
+
+            //준영속 - 더이상 JPA에서 관리하지 않음
+            em.detach(member);
+            em.clear(); //영속성 컨텍스트 전체를 초기화
+
+            System.out.println("=================");
+
+            Member member2 = em.find(Member.class, 150L);   //em.clear()로 영속성 컨텍스트가 초기화되었기 때문에 DB에서 select
+
+            tx.commit();    //member를 detach했기 때문에 dirtychecking이 일어나지 않아 update SQL X
+        } catch (Exception e) {
+            tx.rollback();
+        } finally {
+            em.close();
+        }
+
     }
 
 }

@@ -29,7 +29,21 @@ public class JpaMain {
         /**
          * dirty checking
          */
-        jpa2.dirtyChecking();
+//        jpa2.dirtyChecking();
+
+        /**
+         * flush
+         */
+//        jpa2.flush();
+
+        /**
+         * detach
+         */
+        jpa2.detached();
+
+
+        emf.close();
+
 
     }
 
