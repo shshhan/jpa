@@ -14,7 +14,15 @@
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
-            <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <!--
+            1. create -> 애플리케이션 로딩 시점에 기존 테이블 drop + 신규 테이블 create
+            2. create - drop -> create와 같지만 애플리케이션 종료 시점에 테이블 drop
+            3. update -> 기존 테이블을 유지한채로 변경 내용만 alter(추가만 가능, 지우는건 불가능)
+            4. validate -> 엔티티와 테이블이 정상 맵핑 되어있는지만 확인
+            5. none -> 사용하지 않음. 사실상 위 네가지가 아닌 다른 값을 입력하면 모두 None
+            되도록 로컬에서만 사용하고 개발, 테스트, 운영에서는 사용하지 않는 것이 좋다.
+             -->
         </properties>
     </persistence-unit>
 </persistence>

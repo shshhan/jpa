@@ -5,13 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
+@Entity //기본 생성자 필수
 //@Table(name = "USER") //테이블명이 다를 경우 테이블명 직접 맵핑
 public class Member {
 
     @Id
     private Long id;
-    //@Column(name = "username")    //컬럼명이 다를 경우 컬럼명 직접 맵핑
+
+    @Column(name = "name", unique = true, length = 10)    //컬럼명이 다를 경우 컬럼명 직접 맵핑, unique, length 등 제약조건 가능
     private String name;
 
     public Member() {
