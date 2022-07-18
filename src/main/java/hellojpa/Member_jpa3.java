@@ -7,19 +7,25 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "Member")
-@SequenceGenerator(
+@Table(name = "member_jpa3")
+//@SequenceGenerator(
+//        name = "MEMBER_SEQ_GENERATOR",
+//        sequenceName = "MEMBER_SEQ",    //맵핑할 DB 시퀀스 이름
+//        initialValue = 1,
+//        allocationSize = 1)
+@TableGenerator(        //코드성 테이블을 생성하여 ID 값 관리. 모든 DB에 적용 가능하지만 성능적으로 가장 안좋음
         name = "MEMBER_SEQ_GENERATOR",
-        sequenceName = "MEMBER_SEQ",    //맵핑할 DB 시퀀스 이름
-        initialValue = 1,
+        table = "MY_SEQUENCES",
+        pkColumnValue = "MEMBER_SEQ",
         allocationSize = 1)
 public class Member_jpa3 {
 
     @Id //직접 id를 집어 넣을 경우
 //    @GeneratedValue(strategy = GenerationType.IDENTITY) // DB에 자동생성 id를 위임 ex)mySql-autoIncrement
     @GeneratedValue(     // DB의 Sequence를 생성해서 사용 ex)Oracle-Sequence
-            strategy = GenerationType.SEQUENCE,
-            generator = "MEMBER_SEQ_GENERATOR")
+            strategy = GenerationType.SEQUENCE
+            , generator = "MEMBER_SEQ_GENERATOR"
+    )
     private Long id;
 
     @Column(name = "name", updatable = false, nullable = false)  //DB 컬럼명이 다를 경우, 업데이트 금지, notnull 제약조건,
