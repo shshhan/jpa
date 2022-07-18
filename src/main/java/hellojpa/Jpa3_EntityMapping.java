@@ -22,7 +22,7 @@ public class Jpa3_EntityMapping {
         this.emf = emf;
     }
 
-    public void persistenceExample() {
+    public void idMappingEx() {
         //트랜잭션 단위마다 EntityManager를 생성해서 로직 처리(쓰레드간 공유X)
         EntityManager em = emf.createEntityManager();
 
@@ -30,6 +30,10 @@ public class Jpa3_EntityMapping {
         tx.begin();
 
         try{
+            Member_jpa3 member_jpa3 = new Member_jpa3();
+            member_jpa3.setUsername("cc");
+
+            em.persist(member_jpa3);
 
             tx.commit();    //커밋 시점에 insert sql 생성
         } catch (Exception e) {

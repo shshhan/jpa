@@ -42,6 +42,10 @@ public class JpaMain {
 //        jpa2.detached();
 
         Jpa3_EntityMapping jpa3 = new Jpa3_EntityMapping(emf);
+        /**
+         * @Id, @GeneratedValue
+         */
+        jpa3.idMappingEx();
 
         emf.close();
 
