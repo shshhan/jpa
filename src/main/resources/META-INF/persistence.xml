@@ -14,7 +14,7 @@
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
-<!--            <property name="hibernate.hbm2ddl.auto" value="none" />-->
+            <property name="hibernate.hbm2ddl.auto" value="none" />
             <!--
             1. create -> 애플리케이션 로딩 시점에 기존 테이블 drop + 신규 테이블 create
             2. create - drop -> create와 같지만 애플리케이션 종료 시점에 테이블 drop
