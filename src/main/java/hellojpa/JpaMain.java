@@ -1,5 +1,7 @@
 package hellojpa;
 
+import hellojpa.jpa4_RelationMapping.Jpa4_RelationMapping;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -45,7 +47,13 @@ public class JpaMain {
         /**
          * @Id, @GeneratedValue
          */
-        jpa3.idMappingEx();
+//        jpa3.idMappingEx();
+
+        Jpa4_RelationMapping jpa4 = new Jpa4_RelationMapping(emf);
+//        jpa4.notGoodRelationMapping();
+
+        jpa4.goodRelationMapping();
+
 
         emf.close();
 
