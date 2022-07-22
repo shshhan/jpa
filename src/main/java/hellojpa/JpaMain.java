@@ -43,7 +43,7 @@ public class JpaMain {
          */
 //        jpa2.detached();
 
-        Jpa3_EntityMapping jpa3 = new Jpa3_EntityMapping(emf);
+//        Jpa3_EntityMapping jpa3 = new Jpa3_EntityMapping(emf);
         /**
          * @Id, @GeneratedValue
          */
