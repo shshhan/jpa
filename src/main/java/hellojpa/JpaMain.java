@@ -50,10 +50,16 @@ public class JpaMain {
 //        jpa3.idMappingEx();
 
         Jpa4_RelationMapping jpa4 = new Jpa4_RelationMapping(emf);
+        /**
+         * 양방향 맵핑의 좋은, 안좋은 예
+         */
 //        jpa4.notGoodRelationMapping();
+//        jpa4.goodRelationMapping();
 
-        jpa4.goodRelationMapping();
-
+        /**
+         * 양방향 맵핑시 연관관계의 주인에 값을 입력해야한다.
+         */
+        jpa4.setValueOnOwner();
 
         emf.close();
 

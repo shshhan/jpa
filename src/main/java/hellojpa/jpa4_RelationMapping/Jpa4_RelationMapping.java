@@ -68,11 +68,62 @@ public class Jpa4_RelationMapping {
             em.clear();
 
             Member_jpa4 findMember = em.find(Member_jpa4.class, member.getId());
-            List<Member_jpa4> members = findMember.getTeam().getMembers();  //양방향 연관관계
+            List<Member_jpa4> members = findMember.getTeam().getMembers();  //양방향 연관관
 
             for(Member_jpa4 m : members){
                 System.out.println("m = " + m.getUsername());
             }
+
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        } finally {
+            em.close();
+        }
+
+    }
+
+    public void setValueOnOwner() {
+        EntityManager em = emf.createEntityManager();
+
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        try{
+            Member_jpa4 member = new Member_jpa4();
+            member.setUsername("memberA");
+            em.persist(member);
+
+            Team_jpa4 team = new Team_jpa4();
+            team.setName("TeamA");
+//            team.getMembers().add(member);    //연관관계의 주인이 아닌 쪽에 값을 입력하면 정상 작동 X
+            em.persist(team);
+
+            member.setTeam(team);   //연관관계의 주인에 값을 입력해야 DB에 정상적으로 값이 들어감
+
+            System.out.println("----------------------");
+            /**
+             * 영속성 컨텍스트의 1차 캐시에서 값을 가져옴
+             * --> Team에 Member 값을 넣어주지 않았으므로 조회 불가능
+             */
+            Team_jpa4 team_jpa4 = em.find(Team_jpa4.class, team.getId());    //팀 Select
+            team_jpa4.getMembers().forEach(members -> {  //Team에 Member가 지연로딩이기 때문에 이 시점에서 Member를 Select
+                System.out.println("mebmer name : " + members.getUsername());
+            });
+            System.out.println("----------------------");
+
+            em.flush();
+            em.clear();
+
+            /**
+             * em.flush()로 DB와 동기화, em.clear()로 영속성 컨텍스트를 비운 뒤에 select
+             * --> Team객체에 넣지 값을 넣지 않았지만 연관관계의 주인인 Member에서 값을 넣고 DB와 동기화 된 이후이므로 값이 제대로 출력된다.
+             */
+            Team_jpa4 findTeam = em.find(Team_jpa4.class, team.getId());    //팀 Select
+            findTeam.getMembers().forEach(members -> {  //Team에 Member가 지연로딩이기 때문에 이 시점에서 Member를 Select
+                System.out.println("mebmer name : " + members.getUsername());
+            });
+
 
             tx.commit();
         } catch (Exception e) {
