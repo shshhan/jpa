@@ -44,4 +44,14 @@ public class Member_jpa4 {
     public void setTeam(Team_jpa4 team) {
         this.team = team;
     }
+
+    /**
+     * 양방향 연관관계의 편의를 위한 메서드.
+     * 이 메서드 혹은 Team의 addMember 둘 중 하나만 작성해서 한쪽에서 추가시 반대쪽도 추가되도록 설정
+     * @param team
+     */
+//    public void changeTeam(Team_jpa4 team) {
+//        this.team = team;
+//        team.getMembers().add(this);    //양방햩 맵핑 관계를 고려한 로직. 혹은 Team에서 설정
+//    }
 }

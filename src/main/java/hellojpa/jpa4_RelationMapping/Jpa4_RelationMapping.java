@@ -61,7 +61,8 @@ public class Jpa4_RelationMapping {
 
             Member_jpa4 member = new Member_jpa4();
             member.setUsername("memberA");
-            member.setTeam(team);
+//            member.changeTeam(team);
+            team.addMember(member);
             em.persist(member);
 
             em.flush();
@@ -99,7 +100,8 @@ public class Jpa4_RelationMapping {
 //            team.getMembers().add(member);    //연관관계의 주인이 아닌 쪽에 값을 입력하면 정상 작동 X
             em.persist(team);
 
-            member.setTeam(team);   //연관관계의 주인에 값을 입력해야 DB에 정상적으로 값이 들어감
+//            member.changeTeam(team);   //연관관계의 주인에 값을 입력해야 DB에 정상적으로 값이 들어감
+            team.addMember(member);     //연관관계의 주인은 아니지만 메서드 내부에 연관관계 주인에 값을 입력하는 로직이 들어가있음
 
             System.out.println("----------------------");
             /**
@@ -116,7 +118,7 @@ public class Jpa4_RelationMapping {
             em.clear();
 
             /**
-             * em.flush()로 DB와 동기화, em.clear()로 영속성 컨텍스트를 비운 뒤에 select
+             * em.flush()로 DB와 동기화, em.clear()로 영속성 컨텍스트를 비운 뒤에 selectㄴ
              * --> Team객체에 넣지 값을 넣지 않았지만 연관관계의 주인인 Member에서 값을 넣고 DB와 동기화 된 이후이므로 값이 제대로 출력된다.
              */
             Team_jpa4 findTeam = em.find(Team_jpa4.class, team.getId());    //팀 Select
@@ -124,6 +126,13 @@ public class Jpa4_RelationMapping {
                 System.out.println("mebmer name : " + members.getUsername());
             });
 
+            /**
+             * 양방향 연관관계에서는 값을 양쪽에 다 셋팅해줘야한다.
+             * 1. DB와 동기화 된 이후에는 값을 조회하는데 문제가 없지만, 이전에 조회할 경우 문제가 생길 수 있다.
+             * 2. 객체지향적인 관점에서, 순수 객체 상태를 고려한다면 양쪽에 값을 셋팅하는 것이 맞다.
+             * 3. 추후 JPA기능 없이 TEST 코드를 작성할 때 문제가 될 수 있다.
+             * ==> 실수하지 않기 위해 연관관계의 주인에 편의 메서드를 생성.
+             */
 
             tx.commit();
         } catch (Exception e) {
