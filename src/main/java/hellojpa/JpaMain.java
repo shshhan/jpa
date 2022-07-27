@@ -1,6 +1,7 @@
 package hellojpa;
 
 import hellojpa.jpa4_RelationMapping.Jpa4_RelationMapping;
+import hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Jpa5_VariousRelation;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -17,7 +18,7 @@ public class JpaMain {
 //        Jpa1_GetStart jpa1 = new Jpa1_GetStart(emf);
 //        jpa1.basicCRUD();
 
-        Jpa2_PersistenceContext jpa2 = new Jpa2_PersistenceContext(emf);
+//        Jpa2_PersistenceContext jpa2 = new Jpa2_PersistenceContext(emf);
         /**
          * 영속성 관리 - 내부 동작 방식
          */
@@ -49,7 +50,7 @@ public class JpaMain {
          */
 //        jpa3.idMappingEx();
 
-        Jpa4_RelationMapping jpa4 = new Jpa4_RelationMapping(emf);
+//        Jpa4_RelationMapping jpa4 = new Jpa4_RelationMapping(emf);
         /**
          * 양방향 맵핑의 좋은, 안좋은 예
          */
@@ -59,7 +60,13 @@ public class JpaMain {
         /**
          * 양방향 맵핑시 연관관계의 주인에 값을 입력해야한다.
          */
-        jpa4.setValueOnOwner();
+//        jpa4.setValueOnOwner();
+
+        Jpa5_VariousRelation jpa5 = new Jpa5_VariousRelation(emf);
+        /**
+         * 일대다 관계
+         */
+        jpa5.oneToManyEx();
 
         emf.close();
 
