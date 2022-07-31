@@ -1,10 +1,10 @@
 package hellojpa;
 
-import hellojpa.jpa4_RelationMapping.Jpa4_RelationMapping;
-import hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Jpa5_VariousRelation;
+import hellojpa.jpa6_advancedMapping.Jpa6_AdvancedMaping;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 
 public class JpaMain {
 
@@ -62,11 +62,17 @@ public class JpaMain {
          */
 //        jpa4.setValueOnOwner();
 
-        Jpa5_VariousRelation jpa5 = new Jpa5_VariousRelation(emf);
+//        Jpa5_VariousRelation jpa5 = new Jpa5_VariousRelation(emf);
         /**
          * 일대다 관계
          */
-        jpa5.oneToManyEx();
+//        jpa5.oneToManyEx();
+
+        Jpa6_AdvancedMaping jpa6 = new Jpa6_AdvancedMaping(emf);
+        /**
+         * 조인 전략 -> 각각 테이블로 변환
+         */
+        jpa6.inheritanceStrategy();
 
         emf.close();
 
