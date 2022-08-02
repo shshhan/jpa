@@ -1,6 +1,6 @@
 package hellojpa;
 
-import hellojpa.jpa6_advancedMapping.Jpa6_AdvancedMaping;
+import hellojpa.jpa7_ProxyAndRelation.Jpa7_ProxyAndRelation;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -68,11 +68,22 @@ public class JpaMain {
          */
 //        jpa5.oneToManyEx();
 
-        Jpa6_AdvancedMaping jpa6 = new Jpa6_AdvancedMaping(emf);
+//        Jpa6_AdvancedMaping jpa6 = new Jpa6_AdvancedMaping(emf);
         /**
          * 조인 전략 -> 각각 테이블로 변환
          */
-        jpa6.inheritanceStrategy();
+//        jpa6.inheritanceStrategy();
+
+        Jpa7_ProxyAndRelation jpa7 = new Jpa7_ProxyAndRelation(emf);
+        /**
+         * 프록시 객체 호출
+         */
+//        jpa7.getReferenceForProxy();
+
+        /**
+         * 프록시 객체와 실제 객체 사이의 비교에는 instanceof 활용
+         */
+        jpa7.compareTypeOfProxyAndReal();
 
         emf.close();
 
