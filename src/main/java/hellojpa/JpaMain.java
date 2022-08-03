@@ -83,8 +83,22 @@ public class JpaMain {
         /**
          * 프록시 객체와 실제 객체 사이의 비교에는 instanceof 활용
          */
-        jpa7.compareTypeOfProxyAndReal();
+//        jpa7.compareTypeOfProxyAndEntity();
 
+        /**
+         * 프록시 객체 호출시 실제 객체가 영속성 컨텍스트에 존재하고 있으면 실제 객체를 반환
+         */
+//        jpa7.getProxyAfterEntity();
+
+        /**
+         * 실제 객체 호출 시에도 프록시 객체가 영속성 컨텍스트에 존재하고 있으면 프록시 객체를 반환
+         */
+//        jpa7.getEntityAfterProxy();
+
+        /**
+         * 준영속 상태 시 프록시를 초기화 하면 org.hibernate.LazyInitializationException 예외 발생
+         */
+        jpa7.exceptionAfterDetach();
         emf.close();
 
 
