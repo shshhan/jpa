@@ -16,7 +16,8 @@ public class Member_jpa7 {
      * 일대다 양방향이 공식적으로 존재하지는 않음.
      * 읽기 전용 필드를 사용해서 양방향 처럼 사용은 가능.
      */
-    @ManyToOne
+//    @ManyToOne(fetch = FetchType.LAZY)  //지연로딩
+    @ManyToOne(fetch = FetchType.EAGER)  //즉시로딩
     @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)    //읽기 전용으로 맵핑
     private Team_jpa7 team;
 

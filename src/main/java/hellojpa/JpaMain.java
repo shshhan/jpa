@@ -98,7 +98,9 @@ public class JpaMain {
         /**
          * 준영속 상태 시 프록시를 초기화 하면 org.hibernate.LazyInitializationException 예외 발생
          */
-        jpa7.exceptionAfterDetach();
+//        jpa7.exceptionAfterDetach();
+
+        jpa7.fetchTypeLazyAndEager();
         emf.close();
 
 

@@ -228,4 +228,55 @@ public class Jpa7_ProxyAndRelation {
 
     }
 
+    public void fetchTypeLazyAndEager() {
+        EntityManager em = emf.createEntityManager();
+
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        try {
+            Team_jpa7 team = new Team_jpa7();
+            team.setName("teamA");
+            em.persist(team);
+
+            Member_jpa7 member1 = new Member_jpa7();
+            member1.setUsername("member1");
+            team.addMember(member1);
+            em.persist(member1);
+
+
+            em.flush();
+            em.clear();
+
+            //================================================
+
+            Member_jpa7 m = em.find(Member_jpa7.class, member1.getId());
+            System.out.println("m : " + m.getClass());
+            /**
+             * LAZY : Join 없이 Member의 값만 조회하기 때문에 프록시 객체로 조회된다.
+             * EAGER : Join 하여 조회하기 때문에 엔티티 객체로 조회된다.
+             */
+            System.out.println("m.team : " + m.getTeam().getClass());
+
+            System.out.println("========");
+            /**
+             * LAZY : 지연로딩 된 객체를 프록시로 가져온 뒤 값을 사용하는 시점에 프록시 초기화
+             * --> Select로 Team 객체를 가져온 뒤 System.out.println 수행
+             * EAGER : 이미 값을 갖고 있기 때문에 바로 System.out.println 수행
+             */
+            System.out.println("m.team.name : " + m.getTeam().getName());
+            System.out.println("========");
+
+
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+    }
+
+
 }
