@@ -5,6 +5,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import java.util.List;
 
 public class Jpa7_ProxyAndRelation {
 
@@ -267,6 +268,62 @@ public class Jpa7_ProxyAndRelation {
             System.out.println("m.team.name : " + m.getTeam().getName());
             System.out.println("========");
 
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+    }
+
+    public void cautionOfFetchTypeEager() {
+        /**
+         * 즉시로딩 사용시 주의
+         * 1. 여러 테이블이 Join 되어 내가 예상치 못한 SQL이 수행될 수 있다.
+         * --> 성능 저하 이슈 발생 가능.
+         * 2. JPQL 사용시 N+1 이슈 발생.
+         */
+
+        EntityManager em = emf.createEntityManager();
+
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        try {
+            Team_jpa7 team = new Team_jpa7();
+            team.setName("teamA");
+            em.persist(team);
+
+            Team_jpa7 team2 = new Team_jpa7();
+            team2.setName("teamB");
+            em.persist(team2);
+
+            Member_jpa7 member1 = new Member_jpa7();
+            member1.setUsername("member1");
+            team.addMember(member1);
+            em.persist(member1);
+
+            Member_jpa7 member2 = new Member_jpa7();
+            member2.setUsername("member2");
+            team2.addMember(member2);
+            em.persist(member2);
+
+            em.flush();
+            em.clear();
+
+            //================================================
+
+//            Member_jpa7 m = em.find(Member_jpa7.class, member2.getId());
+            List<Member_jpa7> members = em.createQuery("select m from Member_jpa7 m", Member_jpa7.class)
+                    .getResultList();
+            /**
+             * JPQL의 동작 과정
+             * SQL : SELECT * FROM Member_jpa7
+             * SQL : SELECT * FROM Team_jpa7 where TEAM_ID = xxx
+             * --> N+1 이슈 발생
+             */
 
             tx.commit();
         } catch (Exception e) {

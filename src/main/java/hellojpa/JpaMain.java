@@ -100,7 +100,16 @@ public class JpaMain {
          */
 //        jpa7.exceptionAfterDetach();
 
-        jpa7.fetchTypeLazyAndEager();
+        /**
+         * 즉시로딩과 지연로딩
+         */
+//        jpa7.fetchTypeLazyAndEager();
+
+        /**
+         * 즉시로딩 사용시 주의점
+         */
+        jpa7.cautionOfFetchTypeEager();
+
         emf.close();
 
 
