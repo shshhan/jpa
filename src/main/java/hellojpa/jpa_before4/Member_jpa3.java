@@ -1,10 +1,8 @@
-package hellojpa;
-import jdk.nashorn.internal.objects.annotations.Setter;
+package hellojpa.jpa_before4;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "member_jpa3")

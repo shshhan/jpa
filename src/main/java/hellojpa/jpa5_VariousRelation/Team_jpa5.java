@@ -15,7 +15,7 @@ public class Team_jpa5 {
 
     @OneToMany
     @JoinColumn(name = "TEAM_ID")   //@JoinColumn 없으면 JoinTable 방식을 사용함.
-    private List<Member_jpa5> members = new ArrayList<>();
+    private List<hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Member_jpa5> members = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -33,11 +33,11 @@ public class Team_jpa5 {
         this.name = name;
     }
 
-    public List<Member_jpa5> getMembers() {
+    public List<hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Member_jpa5> getMembers() {
         return members;
     }
 
-    public void setMembers(List<Member_jpa5> members) {
+    public void setMembers(List<hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Member_jpa5> members) {
         this.members = members;
     }
 }

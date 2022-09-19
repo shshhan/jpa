@@ -13,8 +13,7 @@ public class Team_jpa7 {
 
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "TEAM_ID")   //@JoinColumn 없으면 JoinTable 방식을 사용함.
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Member_jpa7> members = new ArrayList<>();
 
     public Long getId() {

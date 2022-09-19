@@ -284,6 +284,9 @@ public class Jpa7_ProxyAndRelation {
          * 1. 여러 테이블이 Join 되어 내가 예상치 못한 SQL이 수행될 수 있다.
          * --> 성능 저하 이슈 발생 가능.
          * 2. JPQL 사용시 N+1 이슈 발생.
+         * --> 1) JPQL을 사용시 일단 SQL로 번역되어 수행되어 해당 엔티티를 가져온다.
+         *     2) FetchType.EAGER인 엔티티도 가져와야 하기 때문에 해당 테이블의 pk를 조건으로 하는 select문이 갯수만큼 수행된다.
+         * --> 만약 Member 객체가 10개의 Team을 갖고있다면 Member select 1번, Team select 10번(n번) => 총 11(10+1)번
          */
 
         EntityManager em = emf.createEntityManager();
@@ -314,15 +317,87 @@ public class Jpa7_ProxyAndRelation {
             em.clear();
 
             //================================================
+            System.out.println("=======================");
 
-//            Member_jpa7 m = em.find(Member_jpa7.class, member2.getId());
-            List<Member_jpa7> members = em.createQuery("select m from Member_jpa7 m", Member_jpa7.class)
-                    .getResultList();
+            //            Member_jpa7 m = em.find(Member_jpa7.class, member2.getId());
+            //            List<Member_jpa7> members = em.createQuery("select m from Member_jpa7 m", Member_jpa7.class)
+            //                    .getResultList();
             /**
              * JPQL의 동작 과정
              * SQL : SELECT * FROM Member_jpa7
              * SQL : SELECT * FROM Team_jpa7 where TEAM_ID = xxx
              * --> N+1 이슈 발생
+             */
+
+            //fetch join을 활용한 N+1 해결
+            List<Member_jpa7> members = em.createQuery("select m from Member_jpa7 m join fetch m.team", Member_jpa7.class)
+                    .getResultList();
+            /**
+             * fetch join, @EntityGraph, BatchSize 등의 방법으로 N+1 문제 해결
+             */
+
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+    }
+
+
+    public void cascadeTypeAndOrpahnRemoval() {
+        /**
+         * CascadeType = ALL or Persist => 부모객체가 영속성 컨텍스트에 올라갈 때 자식객체도 연쇄적으로 올라가게 된다.
+         * 자식 엔티티가 부모 엔티티에 완전히 종속적이고 생애주기가 일치할 때만 사용해야 한다.
+         * 자식 엔티티가 다른 엔티티와도 연관관계가 있다면 cascade 사용시 운영이 어렵다.
+         */
+
+
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        try {
+            Team_jpa7 team = new Team_jpa7();
+            team.setName("teamA");
+
+            Member_jpa7 member1 = new Member_jpa7();
+            member1.setUsername("member1");
+            Member_jpa7 member2 = new Member_jpa7();
+            member2.setUsername("member2");
+
+            team.addMember(member1);
+            team.addMember(member2);
+
+            //================================================
+            System.out.println("=======================");
+
+            em.persist(team);
+            //            em.persist(member1);
+            //            em.persist(member2);
+
+            em.flush();
+            em.clear();
+
+            System.out.println("=======================");
+            /**
+             * OrphanRemoval : 부모 엔티티로부터 제거된 객체(=고아객체)는 영속성 컨텍스트에서 자동으로 삭제된다.
+             * CascadeType과 마찬가지로 참조하는 곳이 한곳일때만 사용해야한다.
+             */
+            Team_jpa7 findTeam = em.find(Team_jpa7.class, team.getId());
+            findTeam.getMembers().remove(0);
+
+            /**
+             * 부모를 제거하면 자식은 객체는 고아객체가 되므로 삭제된다. CascadeType = REMOVE와 유사하게 동작.
+             */
+            em.remove(findTeam);
+
+            /**
+             * CascadeType = ALL, OrphanRemoval = True
+             * ==> 두 옵션을 모두 활성화하면 자식 엔티티의 생명주기를 부모엔티티에서 관리할 수 있다.
+             * DDD의 Aggregate Root 개념을 구현할 때 유용.
              */
 
             tx.commit();

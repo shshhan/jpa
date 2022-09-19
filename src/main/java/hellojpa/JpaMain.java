@@ -108,7 +108,13 @@ public class JpaMain {
         /**
          * 즉시로딩 사용시 주의점
          */
-        jpa7.cautionOfFetchTypeEager();
+//        jpa7.cautionOfFetchTypeEager();
+
+        /**
+         * 영속성 전이 & 고아 객체
+         */
+        jpa7.cascadeTypeAndOrpahnRemoval();
+
 
         emf.close();
 

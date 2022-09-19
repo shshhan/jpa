@@ -20,24 +20,24 @@ public class Member_jpa5 {
      */
     @ManyToOne
     @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)    //읽기 전용으로 맵핑
-    private Team_jpa5 team;
+    private hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Team_jpa5 team;
 
     /**
      * 일대일 맵핑
      */
     @OneToOne
     @JoinColumn(name = "LOCKER_ID")
-    private Locker_jpa5 locker;
+    private hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Locker_jpa5 locker;
 
     /**
      * 다대다 맵핑
      */
     @ManyToMany
     @JoinTable(name = "MEMBER_PRODUCT")
-    private List<Product_jpa5> products = new ArrayList<>();
+    private List<hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Product_jpa5> products = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<MemberProduct_jpa5> memberProducts = new ArrayList<>();
+    private List<hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.MemberProduct_jpa5> memberProducts = new ArrayList<>();
 
     public Long getId() {
         return id;

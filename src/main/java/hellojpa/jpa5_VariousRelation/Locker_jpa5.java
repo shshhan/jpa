@@ -17,7 +17,7 @@ public class Locker_jpa5 {
      * 일대일 맵핑 양방향
      */
     @OneToOne(mappedBy = "locker")
-    private Member_jpa5 member;
+    private hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Member_jpa5 member;
 
     /**
      * 일대일 맵핑에서 키의 위치

@@ -20,10 +20,10 @@ public class Product_jpa5 {
      * ==> 연결 테이블을 엔티티로 승격시켜 다대다 관계를 일대다, 다대일 관계로 해소시킨다.
      */
     @ManyToMany(mappedBy = "products")
-    private List<Member_jpa5> members = new ArrayList<>();
+    private List<hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Member_jpa5> members = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<MemberProduct_jpa5> memberProducts = new ArrayList<>();
+    private List<hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.MemberProduct_jpa5> memberProducts = new ArrayList<>();
 
 
 

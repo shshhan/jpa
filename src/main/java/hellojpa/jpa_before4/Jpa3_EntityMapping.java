@@ -1,10 +1,8 @@
-package hellojpa;
+package hellojpa.jpa_before4;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
-import java.util.List;
 
 /**
  * 영속성 컨텍스트의 이점

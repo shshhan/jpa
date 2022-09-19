@@ -1,4 +1,4 @@
-package hellojpa;
+package hellojpa.jpa_before4;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

@@ -19,12 +19,12 @@ public class Jpa5_VariousRelation {
         tx.begin();
 
         try{
-            Member_jpa5 member = new Member_jpa5();
+            hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Member_jpa5 member = new hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Member_jpa5();
             member.setUsername("member1");
 
             em.persist(member);
 
-            Team_jpa5 team = new Team_jpa5();
+            hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Team_jpa5 team = new hellojpa.jpa5_VariousRelation.jpa4_RelationMapping.Team_jpa5();
             team.setName("teamA");
 
             /**
