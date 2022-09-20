@@ -113,7 +113,8 @@ public class JpaMain {
         /**
          * 영속성 전이 & 고아 객체
          */
-        jpa7.cascadeTypeAndOrpahnRemoval();
+//        jpa7.cascadeTypeAndOrpahnRemoval();
+
 
 
         emf.close();
