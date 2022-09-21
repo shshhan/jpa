@@ -1,6 +1,7 @@
 package hellojpa;
 
 import hellojpa.jpa7_ProxyAndRelation.Jpa7_ProxyAndRelation;
+import hellojpa.jpa8_ValueType.Jpa8_ValueType;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -115,6 +116,12 @@ public class JpaMain {
          */
 //        jpa7.cascadeTypeAndOrpahnRemoval();
 
+        Jpa8_ValueType jpa8 = new Jpa8_ValueType(emf);
+
+        /**
+         * Embedded 타입 사용
+         */
+        jpa8.useEmbeddedType();
 
 
         emf.close();

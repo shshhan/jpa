@@ -9,6 +9,10 @@ public class Period {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
+    public boolean isWork() {
+        return true;
+    }
+
     public LocalDateTime getStartDate() {
         return startDate;
     }

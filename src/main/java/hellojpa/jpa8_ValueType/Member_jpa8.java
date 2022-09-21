@@ -21,4 +21,35 @@ public class Member_jpa8 {
     @Embedded
     private Address homeAddress;
 
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city", column = @Column(name = "WORK_CITY"))
+            , @AttributeOverride(name="street", column = @Column(name = "WORK_STREET"))
+            , @AttributeOverride(name="zipcode", column = @Column(name = "WORK_ZIPCODE"))
+    })
+    private Address workAddress = null; //관련 컬럼들을 모두 null로 저장
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Period getWorkPeriod() {
+        return workPeriod;
+    }
+
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
 }
