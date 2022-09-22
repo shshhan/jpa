@@ -121,8 +121,12 @@ public class JpaMain {
         /**
          * Embedded 타입 사용
          */
-        jpa8.useEmbeddedType();
+//        jpa8.useEmbeddedType();
 
+        /**
+         * Embedded 타입의 부작용
+         */
+        jpa8.sideEffectOfValueType();
 
         emf.close();
 

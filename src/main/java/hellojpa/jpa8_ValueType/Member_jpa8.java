@@ -22,12 +22,19 @@ public class Member_jpa8 {
     private Address homeAddress;
 
     @Embedded
-    @AttributeOverrides({
+    @AttributeOverrides({   //Embedded Type이 한 엔티티에서 중복된다면 컬럼명 속성을 재정의해야한다.
             @AttributeOverride(name="city", column = @Column(name = "WORK_CITY"))
             , @AttributeOverride(name="street", column = @Column(name = "WORK_STREET"))
             , @AttributeOverride(name="zipcode", column = @Column(name = "WORK_ZIPCODE"))
     })
     private Address workAddress = null; //관련 컬럼들을 모두 null로 저장
+
+    /**
+     * Embedded 타입의 장점
+     * 높은 응집도, 재사용성
+     * 해당 값 타입만 사용하는 의미있는 메서드 생성 가능
+     * 임베디드 타입을 포함한 모든 값 타입은 값 타입을 소유한 엔티티 생명주에 의존적
+     */
 
     public String getUsername() {
         return username;
